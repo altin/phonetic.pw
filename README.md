@@ -1,2 +1,2 @@
 # password.png
-Image authentication system developed for COMP 3008.
+A unique and memorable password scheme developed for COMP 3008.
