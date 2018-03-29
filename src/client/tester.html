@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="utf8" />
 	<title>Password Tester</title>
 	<link rel="stylesheet" href="tester-style.css" />
 	<link rel="shortcut icon" href="favicon.ico">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<!--<script src="logic.js"></script>-->
+	<script src="app.js"></script>
 </head>
 
 <body>
 	<div class="header">
-		<h1>password.png</h1>
+		<h1>Phonetic.pw</h1>
 		<h3>Password Tester</h3>
 		<hr>
 	</div>
@@ -22,32 +21,46 @@
 			<h3>Email</h3>
 		</center>
 	</div>
-	<div id="email" class="block">
+	<div id="email-gen" class="gen">
+		<p id="email-password">Your password is:</p>
+		<div class="block">
+			<center>
+				<p id="change">Change</p>
+			</center>
+		</div>
+		<p>Please practice your password: </p>
+		<form>
+			<input id="practice" type="text" size=10></input>
+		</form>
+		<div class="block">
+			<center>
+				<p id="test">Test</p>
+			</center>
+		</div>
+		<p>When you're finished practicing, click finish.</p>
+		<div class="block">
+			<center>
+				<p id="finish">Finish</p>
+			</center>
+		</div>
+	</div>
+	<div id="banking" class="block">
 		<center>
 			<h3>Banking</h3>
 		</center>
+	</div>
+	<div id="banking-gen" class="gen">
+
 	</div>
 	<div id="shopping" class="block">
 		<center>
 			<h3>Shopping</h3>
 		</center>
+	</div>
+	<div id="shopping-gen" class="gen">
+
 	</div>
 	<br>
 	<p>Test your password for:</p>
-	<div id="email" class="block">
-		<center>
-			<h3>Email</h3>
-		</center>
-	</div>
-	<div id="email" class="block">
-		<center>
-			<h3>Banking</h3>
-		</center>
-	</div>
-	<div id="shopping" class="block">
-		<center>
-			<h3>Shopping</h3>
-		</center>
-	</div>
 </body>
 </html>
