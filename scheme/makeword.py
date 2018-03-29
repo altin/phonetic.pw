@@ -27,24 +27,23 @@ d['Y'] = ('a','i','o')
 d['Z'] = ('a','e','i','o','u')
 
 def makeword(word, curr_len, final_len):
-    if curr_len == 0: # first letter in word
+    if curr_len == 0:  # first letter in word
         print("Generating a", final_len, "letter word:")
         word += random.choice(list(d.keys()))
         curr_len += 1
         return makeword(word, curr_len, final_len)
-    elif curr_len == final_len: # return word once we reach the desired length
+    elif curr_len == final_len:  # return word once we reach the desired length
         return word
-    else: # recursively build the rest of the word
+    else:  # recursively build the rest of the word
         while True:
             letter = random.choice(d[word[-1:]]).upper()
-            if letter != word[-1:]: # no repetition of letters
+            if letter != word[-1:]:  # no repetition of letters
                 break
         word += letter
         curr_len += 1
         return makeword(word, curr_len, final_len)
 
-word = makeword('', 0, 5)
-print(word)
+print(makeword('', 0, 5))
 
-#lists = [A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,R,S,T,U,V,W,Y,Z]
-#start = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','y','z']
+# lists = [A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,R,S,T,U,V,W,Y,Z]
+# start = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','y','z']
