@@ -26,9 +26,9 @@ var user = {
 }
 
 //generator and tester html for dynamic loading
-var generator = '<div id="generator" class="gen"><p id="password_print">Your password is:</p><div class="block"><center><p id="change">Change</p></center></div><p>Please practice your password: </p><form><input id="practice" type="text" size=10></input></form><div class="block"><center><p id="test">Test</p></center></div><p>When you are finished practicing, click accept.</p><div class="block"><center><p id="accept">Accept</p></center></div></div>'
+var generator = '<center><div id="generator" class="gen"><p id="password_print">Your password is:</p><div id="buttonStrip"><button type="button" id="change">Change</button><button type="button" id="practice">Practice</button><button type="button" id="accept">Accept</button></div></div></center>'
 var tester = '<div id="tester" class="test"><p>Enter your password: </p><form><input id="login" type="text" size=10></input></form><div class="block"><center><p id="enter">Enter</p></center></div></div>'
-
+var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button></div></div></center>'
 //global variable declaration
 var state;
 var mode;
@@ -116,37 +116,55 @@ function loadGenerator(s){
     switch(s){
       case State.e_Email:
         $('#email').append(generator);
+        $('#email').append(practiceField);
+        $('#practiceField').hide();
         break;
       case State.e_Banking:
-        $('#banking').append(generator);
+          $('#banking').append(generator);
+          $('#banking').append(practiceField);
+          $('#practiceField').hide();
         break;
       case State.e_Shopping:
-        $('#shopping').append(generator);
+          $('#shopping').append(generator);
+          $('#shopping').append(practiceField);
+          $('#practiceField').hide();
         break;
     }
-    password = generatePassword();
+    password = generatePassword(5).toUpperCase();
     $('#password_print').append("<p id='password'>" + password +"</p>");
+
     $('#change').on("click", function() {
-  	  password = generatePassword();
+  	  password = generatePassword(5).toUpperCase();
       $('#password').text(password);
     });
-    $('#test').on("click", function() {
+
+    $('#enter').on("click", function() {
         enterPassword();
     });
-    $('#accept').on("click", function() {
-      savePassword()
+
+    $('#practice').on("click", function() {
+        $("#generator, #buttonStrip").hide();
+        $('#practiceField').show();
+        $('#practiceInput').focus();
+    });
+    $('#back').on("click", function() {
+        $("#generator, #buttonStrip").show();
+        $('#practiceField').hide();
+    });
+
+    $('#hint').on("mousedown", function() {
+        $('#practiceInput').val(password);
+        $('#practiceInput').css('color', 'grey');
+    }).on("mouseup", function() {
+        $('#practiceInput').val('');
+        $('#practiceInput').css('color', 'black');
+        $('#practiceInput').focus();
+    });
+
+    $('#accept, #done').on("click", function() {
+      savePassword();
     });
   }
-}
-
-/*
-name: generartePassword
-input: none
-output: none
-purpose: generates phonetic password
-*/
-function generatePassword(){
-  return Math.random();
 }
 
 /*
@@ -157,12 +175,12 @@ purpose: checks if the entered password matches the generated password and alert
 */
 function enterPassword(){
   if (mode == Mode.e_Generating){
-    if ($('#practice').val() == password) alert('Correct');
+    if ($('#practiceInput').val().toUpperCase() === password) alert('Correct');
 	  else alert('Incorrect');
   }else if (mode == Mode.e_Enter){
     attempts--;
     $('#attempt_counter').text(attempts);
-    if ($('#login').val() == password){
+    if ($('#login').val().toUpperCase() === password){
       alert('Login Success');
       login();
       closeTester();
@@ -253,18 +271,33 @@ output: none
 purpose: saves the generated password to the user object
 */
 function savePassword(){
-  $('#generator').remove();
+  $('#generator, #buttonStrip, #practiceField').remove();
   switch(state){
     case State.e_Email:
-      user.e_pw = password;
+      user.e_pw = password.toUpperCase();
+      $('#email').find("h3").append(" \u2714");
+      $('#email').find("h3").css('color', 'lime');
+      $('#email').css('opacity', '0.5');
+      $('#email').css('cursor', 'context-menu');
+      $('#email').css('background-color', '#444');
       changeState();
       break;
     case State.e_Banking:
-      user.b_pw = password;
+      user.b_pw = password.toUpperCase();
+      $('#banking').find("h3").append(" \u2714");
+      $('#banking').find("h3").css('color', 'lime');
+      $('#banking').css('opacity', '0.5');
+      $('#banking').css('cursor', 'context-menu');
+      $('#banking').css('background-color', '#444');
       changeState();
       break;
     case State.e_Shopping:
-      user.s_pw = password;
+      user.s_pw = password.toUpperCase();
+      $('#shopping').find("h3").append(" \u2714");
+      $('#shopping').find("h3").css('color', 'lime');
+      $('#shopping').css('opacity', '0.5');
+      $('#shopping').css('cursor', 'context-menu');
+      $('#shopping').css('background-color', '#444');
       //randomize order array for random orer of testers
       order = shuffle(order);
       changeState();
