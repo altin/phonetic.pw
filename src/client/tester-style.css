@@ -63,8 +63,7 @@ h1 {
 
 .gen {
     position: relative;
-    padding: 10px 10px 10px 10px;
-    margin: inherit;
+    margin: 10px;
     color: white;
     background-color: #444;
     border: solid 1px #355;
@@ -109,6 +108,58 @@ div.tile span {
 
 #showAnswers {
     cursor: pointer;
+}
+
+#password {
+    font-size: 36px;
+    font-weight: bolder;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.42);
+}
+#practice-buttonStrip, #buttonStrip {
+    padding: 10px;
+}
+
+
+button {
+    padding: 5px;
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 10px 10px 10px;
+    color: white;
+    background-color: #4f4e4e;
+    border: solid 1px #355;
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.42);
+}
+
+button:active {
+    background-color: green;
+}
+button:hover {
+    box-shadow: inset 0px 0px 3px rgba(150, 150, 150, 0.2);
+    cursor: pointer;
+}
+
+input[type = text] {
+    width: 50%;
+    font-weight: bolder;
+    height: 46px;
+    text-shadow: 3px;
+    background-color: white;
+    font-size: 36px;
+    text-align: center;
+    box-shadow: inset 0px 0px 28px 3px #ABABAB;
+    box-shadow: outline 0px 0px 8px black;
+    font-family: 'Comfortaa', sans-serif;
+    display:inline-block;
+    text-transform: uppercase;
+    border: 1px solid #355;
+    border-radius: 4px;
+    margin: 22px;
+
 }
 
 hr {
