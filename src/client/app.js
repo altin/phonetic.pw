@@ -10,7 +10,8 @@ var State = {
 var Mode = {
 	e_Create: 1,
 	e_Enter: 2,
-  e_Generating: 4
+  e_Generating: 3,
+  e_Finished: 4
 };
 
 //temporary user
@@ -18,16 +19,23 @@ var user = {
 	username: "comp3008",
 	e_pw: "",
 	b_pw: "",
-	s_pw: ""
+	s_pw: "",
+  e_login: false,
+  b_login: false,
+  s_login: false
 }
 
-//generator html for dynamic loading
-var generator = '<div id="generator" class="gen"><p id="password_print">Your password is:</p><div class="block"><center><p id="change">Change</p></center></div><p>Please practice your password: </p><form><input id="practice" type="text" size=10></input></form><div class="block"><center><p id="test">Test</p></center></div><p>When you are finished practicing, click finish.</p><div class="block"><center><p id="finish">Finish</p></center></div></div>'
+//generator and tester html for dynamic loading
+var generator = '<div id="generator" class="gen"><p id="password_print">Your password is:</p><div class="block"><center><p id="change">Change</p></center></div><p>Please practice your password: </p><form><input id="practice" type="text" size=10></input></form><div class="block"><center><p id="test">Test</p></center></div><p>When you are finished practicing, click accept.</p><div class="block"><center><p id="accept">Accept</p></center></div></div>'
+var tester = '<div id="tester" class="test"><p>Enter your password: </p><form><input id="login" type="text" size=10></input></form><div class="block"><center><p id="enter">Enter</p></center></div></div>'
 
-//global variables
+//global variable declaration
 var state;
 var mode;
 var password;
+var order;
+var order_it;
+var attempts;
 
 $(document).ready(function() {
 
@@ -35,6 +43,9 @@ $(document).ready(function() {
   state = State.e_Email;
   mode = Mode.e_Create;
   password = '';
+  order = [State.e_Email, State.e_Banking, State.e_Shopping];
+  order_it = 0;
+  attempts = 3;
 
   //click handlers
   $('#email').on("click", function() {
@@ -66,27 +77,30 @@ function shuffle(order){
 }
 
 /*
-name: loadTesters
+name: loadTester
 input: none
 output: none
-purpose: loads the password testers in the html page in an order based on the input array
+purpose: loads the password testers in the html page in an order based on the global order array
 */
-function loadTesters(){
-  //load in password testers in random order
-  var order = [0,1,2];
-  order = shuffle(order);
-  for (i = 0; i < order.length; i++){
-    switch(order[i]){
-      case 0:
-        $('body').append("<div id='email-test' class='block'><center><h3>Email</h3></center></div>");
+function loadTester(){
+  if (mode == Mode.e_Enter){
+    switch(state){
+      case State.e_Email:
+        $('body').append("<div id='email-test' class='block'><center><h3>Email</h3><p>Attempts left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
+        password = user.e_pw;
         break;
-      case 1:
-        $('body').append("<div id='banking-test' class='block'><center><h3>Banking</h3></center></div>");
+      case State.e_Banking:
+        $('body').append("<div id='banking-test' class='block'><center><h3>Banking</h3><p>Attempts left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
+        password = user.b_pw;
         break;
-      case 2:
-        $('body').append("<div id='shopping-test' class='block'><center><h3>Shopping</h3></center></div>");
+      case State.e_Shopping:
+        $('body').append("<div id='shopping-test' class='block'><center><h3>Shopping</h3><p>Attempts left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
+        password = user.s_pw;
         break;
     }
+    $('#enter').on("click", function() {
+      enterPassword();
+    });
   }
 }
 
@@ -119,7 +133,7 @@ function loadGenerator(s){
     $('#test').on("click", function() {
         enterPassword();
     });
-    $('#finish').on("click", function() {
+    $('#accept').on("click", function() {
       savePassword()
     });
   }
@@ -142,37 +156,122 @@ output: none
 purpose: checks if the entered password matches the generated password and alerts the user respectively
 */
 function enterPassword(){
-	if ($('#practice').val() == password) alert('NICE');
-	else alert('U SUCK');
+  if (mode == Mode.e_Generating){
+    if ($('#practice').val() == password) alert('Correct');
+	  else alert('Incorrect');
+  }else if (mode == Mode.e_Enter){
+    attempts--;
+    $('#attempt_counter').text(attempts);
+    if ($('#login').val() == password){
+      alert('Login Success');
+      login();
+      closeTester();
+      changeState();
+      loadTester();
+    }else{
+      alert('Login Failed');
+      if (attempts <= 0){
+        alert('No More Attempts!');
+        attempts = 3;
+        closeTester();
+        changeState();
+        loadTester();
+      }
+    }
+  }
+}
+
+/*
+name: changeState
+input: none
+output: none
+purpose: updates the mode and state enum values
+*/
+function changeState(){
+  order_it++;
+  if (mode == Mode.e_Generating) mode = Mode.e_Create;
+  if (order_it >= order.length) {
+    order_it = 0;
+    switch (mode){
+      case Mode.e_Create:
+        mode = Mode.e_Enter;
+        break;
+      case Mode.e_Enter:
+        mode = Mode.e_Finished;
+//TEMPORARY LINE FOR DEBUGGING PURPOSES
+        console.log(user);
+        break;
+    }
+  }
+  state = order[order_it];
+}
+
+/*
+name: closeTester
+input: none
+output: none
+purpose: closes tester after successful login or exceeded failed attempts
+*/
+function closeTester(){
+  switch(state){
+    case State.e_Email:
+      $('#email-test').remove();
+      break;
+    case State.e_Banking:
+      $('#banking-test').remove();
+      break;
+    case State.e_Shopping:
+      $('#shopping-test').remove();
+      break;
+  }
+}
+
+/*
+name: login
+input: none
+output: none
+purpose: registers successful login
+*/
+function login(){
+  switch(state){
+    case State.e_Email:
+      user.e_login = true;
+      break;
+    case State.e_Banking:
+      user.b_login = true;
+      break;
+    case State.e_Shopping:
+      user.s_login = true;
+      break;
+  }
 }
 
 /*
 name: savePassword
 input: none
 output: none
-purpose: saves the generated password to the user object and resets global variables
+purpose: saves the generated password to the user object
 */
 function savePassword(){
+  $('#generator').remove();
   switch(state){
     case State.e_Email:
       user.e_pw = password;
-      state = State.e_Banking;
-      mode = Mode.e_Create;
+      changeState();
       break;
     case State.e_Banking:
       user.b_pw = password;
-      state = State.e_Shopping;
-      mode = Mode.e_Create;
+      changeState();
       break;
     case State.e_Shopping:
       user.s_pw = password;
-      state = State.e_Email;
-      mode = Mode.e_Enter;
+      //randomize order array for random orer of testers
+      order = shuffle(order);
+      changeState();
       $('body').append("<p>Test your password for:</p>");
-      loadTesters();
+      loadTester();
       break;
   }
-  password = '';
-  $('#generator').remove();
+//TEMPORARY LINE FOR DEBUGGING PURPOSES
   console.log(user);
 }
