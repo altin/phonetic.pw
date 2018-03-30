@@ -38,7 +38,7 @@ function getRandom(obj) {
     }
 }
 // Generate a phonetic password of length 'length'
-function phonetize (length) {
+function generatePassword (length) {
   return buildWord(getRandom(table), 1, length)
 }
 // Optimized tail-recursive algorithm which builds the phonetic passwords
