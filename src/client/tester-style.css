@@ -119,6 +119,15 @@ div.tile span {
     padding: 10px;
 }
 
+#success {
+    color: lime;
+    font-weight: bolder;
+}
+
+#fail {
+    color: orange;
+    font-weight: bolder;
+}
 
 button {
     padding: 5px;

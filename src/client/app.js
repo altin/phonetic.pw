@@ -36,6 +36,8 @@ var password;
 var order;
 var order_it;
 var attempts;
+var failureMessages = ["Try again! You can do it!", "Oops! Don't give up!", "Don't worry, you'll remember!", "It's on the tip of your tongue!", "Mistakes happen. Think harder!", "Not quite, but practice makes perfect."]
+var successMessages = ["You're a genius!", "Amazing!", "Bingo.", "Great work!", "Correct-o!", "Wow! Teach me your ways.", "Perfect.", "Extraordinary."]
 
 $(document).ready(function() {
 
@@ -166,7 +168,6 @@ function loadGenerator(s){
     });
   }
 }
-
 /*
 name: enterPassword
 input: none
@@ -175,8 +176,16 @@ purpose: checks if the entered password matches the generated password and alert
 */
 function enterPassword(){
   if (mode == Mode.e_Generating){
-    if ($('#practiceInput').val().toUpperCase() === password) alert('Correct');
-	  else alert('Incorrect');
+     var msg;
+    if ($('#practiceInput').val().toUpperCase() === password) {
+        msg = successMessages[Math.floor(Math.random() * successMessages.length)];
+        $('#practiceField').append("<p id='success'>" + msg + "</p>");
+        setTimeout(function(){$('#success').remove();}, 1500);
+    } else {
+        msg = failureMessages[Math.floor(Math.random() * failureMessages.length)];
+        $('#practiceField').append("<p id='fail'>" + msg + "</p>");
+        setTimeout(function(){$('#fail').remove();}, 1500);
+    }
   }else if (mode == Mode.e_Enter){
     attempts--;
     $('#attempt_counter').text(attempts);
