@@ -27,7 +27,7 @@ var user = {
 
 //generator and tester html for dynamic loading
 var generator = '<center><div id="generator" class="gen"><p id="password_print">Your password is:</p><div id="buttonStrip"><button type="button" id="change">Change</button><button type="button" id="practice">Practice</button><button type="button" id="accept">Accept</button></div></div></center>'
-var tester = '<div id="tester" class="test"><p>Enter your password: </p><form><input id="login" type="text" size=10></input></form><div class="block"><center><p id="enter">Enter</p></center></div></div>'
+var tester = '<center><div id="tester" class="test"><p>Enter your password: </p><form><input id="login" type="text" size=10 autocomplete="off"></input></form><button type="button" id="enter">Submit</button></center></div></div></center>'
 var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button></div></div></center>'
 //global variable declaration
 var state;
@@ -36,7 +36,7 @@ var password;
 var order;
 var order_it;
 var attempts;
-var failureMessages = ["Try again! You can do it!", "Oops! Don't give up!", "Don't worry, you'll remember!", "It's on the tip of your tongue!", "Mistakes happen. Think harder!", "Not quite, but practice makes perfect."]
+var failureMessages = ["Try again! You can do it!", "Oops! Don't give up!", "Don't worry, you'll remember!", "It's on the tip of your tongue!", "Mistakes happen. Think harder!", "Not quite. Don't sweat it."]
 var successMessages = ["You're a genius!", "Amazing!", "Bingo.", "Great work!", "Correct-o!", "Wow! Teach me your ways.", "Perfect.", "Extraordinary."]
 
 $(document).ready(function() {
@@ -88,15 +88,15 @@ function loadTester(){
   if (mode == Mode.e_Enter){
     switch(state){
       case State.e_Email:
-        $('body').append("<div id='email-test' class='block'><center><h3>Email</h3><p>Attempts left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
+        $('body').append("<div id='email-test' class='block'><center><h3>Email</h3><p id='attemptsLeft'>Attempts Left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
         password = user.e_pw;
         break;
       case State.e_Banking:
-        $('body').append("<div id='banking-test' class='block'><center><h3>Banking</h3><p>Attempts left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
+        $('body').append("<div id='banking-test' class='block'><center><h3>Banking</h3><p id='attemptsLeft'>Attempts Left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
         password = user.b_pw;
         break;
       case State.e_Shopping:
-        $('body').append("<div id='shopping-test' class='block'><center><h3>Shopping</h3><p>Attempts left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
+        $('body').append("<div id='shopping-test' class='block'><center><h3>Shopping</h3><p id='attemptsLeft'>Attempts Left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
         password = user.s_pw;
         break;
     }
@@ -188,21 +188,32 @@ function enterPassword(){
     }
   }else if (mode == Mode.e_Enter){
     attempts--;
+    var msg;
     $('#attempt_counter').text(attempts);
     if ($('#login').val().toUpperCase() === password){
-      alert('Login Success');
+      msg = successMessages[Math.floor(Math.random() * successMessages.length)];
+      $('#tester').append("<p id='success'>" + msg + "</p>");
+      setTimeout(function(){$('#success').remove();}, 1500);
       login();
       closeTester();
       changeState();
       loadTester();
     }else{
-      alert('Login Failed');
-      if (attempts <= 0){
-        alert('No More Attempts!');
-        attempts = 3;
-        closeTester();
-        changeState();
-        loadTester();
+      if (attempts > 0) {
+          msg = failureMessages[Math.floor(Math.random() * failureMessages.length)];
+          $('#tester').append("<p id='fail'>" + msg + "</p>");
+          setTimeout(function(){$('#fail').remove();}, 1500);
+      }
+      else if (attempts <= 0) {
+        $('#enter').hide();
+        $('#tester').append("<p id='fail'> You ran out of attempts. </p>");
+        setTimeout(function(){
+            $('#fail').remove();
+            attempts = 3;
+            closeTester();
+            changeState();
+            loadTester();
+        }, 1500);
       }
     }
   }
