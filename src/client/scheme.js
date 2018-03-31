@@ -1,3 +1,6 @@
+// Lookup table which contains all possible combinations of phonetic words
+// For each key in the object, the associated array is a list of letters which
+// Can come after the key such that it makes a phonetic sound
 var table = {}
 table.a = ['b','d','f','g','h','i','j','k','l','m','n','p','r','s','t','v','w','y','z'];
 table.b = ['a','e','i','o','r','u'];
@@ -24,10 +27,15 @@ table.w = ['a','e','i','o','u'];
 table.y = ['a','i','o'];
 table.z = ['a','e','i','o','u'];
 
-// Cryptographically secure random number generator
-// Generates a random key from an object or array
+/*
+name: getRandom
+input: object/array
+output: object/array
+purpose: Generates a cryptographically random key/element from an object or array
+*/
 function getRandom(obj) {
     const buffer = new Uint32Array(1);
+    // Use crypto pseudo-random number generator
     window.crypto.getRandomValues(buffer);
     var number = buffer[0] / (0xffffffff + 1);
     var numKeys = Object.keys(obj).length;
@@ -37,16 +45,28 @@ function getRandom(obj) {
       return Object.keys(obj)[Math.floor(number * numKeys)];
     }
 }
-// Generate a phonetic password of length 'length'
+/*
+name: generatePassword
+input: length (integer)
+output: word (string)
+purpose: Generates a phonetic password of desired length
+*/
 function generatePassword (length) {
   return buildWord(getRandom(table), 1, length)
 }
-// Optimized tail-recursive algorithm which builds the phonetic passwords
+/*
+name: generatePassword
+input: word, current length, final length (word, currLen, finalLen)
+output: word (string)
+purpose: Helper function of generatePassword(): tail-recursive algorithm which
+         builds the phonetic passwords
+*/
 function buildWord (word, currLen, finalLen) {
-  if (currLen == finalLen) return word;
+  if (currLen == finalLen) return word; // Return once we reach the right length
     else
       letter = getRandom(table[word.slice(-1)]);
-      while (letter === word.slice(-1))
+      while (letter === word.slice(-1)) // No repetition of letters
         letter = getRandom(table[word.slice(-1)]);
+      // Recusively build the rest of the word using the previous letter
       return buildWord (word += letter, currLen += 1, finalLen);
 }

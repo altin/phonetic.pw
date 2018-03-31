@@ -29,6 +29,7 @@ var user = {
 var generator = '<center><div id="generator" class="gen"><p id="password_print">Your password is:</p><div id="buttonStrip"><button type="button" id="change">Change</button><button type="button" id="practice">Practice</button><button type="button" id="accept">Accept</button></div></div></center>'
 var tester = '<center><div id="tester" class="test"><p>Enter your password: </p><form><input id="login" type="text" size=10 autocomplete="off"></input></form><button type="button" id="enter">Submit</button></center></div></div></center>'
 var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button></div></div></center>'
+
 //global variable declaration
 var state;
 var mode;
@@ -189,6 +190,7 @@ function enterPassword(){
   }else if (mode == Mode.e_Enter){
     attempts--;
     var msg;
+    $('#login').focus();
     $('#attempt_counter').text(attempts);
     if ($('#login').val().toUpperCase() === password){
       msg = successMessages[Math.floor(Math.random() * successMessages.length)];
