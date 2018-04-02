@@ -56,7 +56,7 @@ attempts = 3;
 // Generator and tester html for dynamic loading
 var generator = '<center><div id="generator" class="gen"><p id="password_print">Your password is:</p><div id="buttonStrip"><button type="button" id="change">Change</button><button type="button" id="practice">Practice</button><button type="button" id="accept">Accept</button></div></div></center>'
 var tester = '<center><div id="tester" class="test"><p>Enter your password: </p><form><input id="login" type="text" size=10 autocomplete="off"></input></form><button type="button" id="enter">Submit</button></center></div></div></center>'
-var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button></div></div></center>'
+var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10"></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button></div></div></center>'
 
 $(document).ready(function() {
     /***************************************************************************
@@ -115,6 +115,17 @@ $(document).ready(function() {
                     password = user.s_pw;
                     break;
             }
+            //add enter key handler so form is not submitted
+            $('#login').keypress(function(e){
+              keyID = e.which;
+              if (keyID == 13) {
+                e.preventDefault();
+                enterPassword();
+                return false;
+              }else {
+                return true;
+              }
+            });
             $('#enter').on("click", function() {
                 enterPassword();
             });
@@ -150,6 +161,17 @@ $(document).ready(function() {
                     $('#practiceField').hide();
                     break;
             }
+            //add enter key handler so form is not submitted
+            $('#practiceInput').keypress(function(e){
+              keyID = e.which;
+              if (keyID == 13) {
+                e.preventDefault();
+                enterPassword();
+                return false;
+              }else {
+                return true;
+              }
+            });
             // Generate a password of desired length
             password = generatePassword(5).toUpperCase();
             // Show the password in the corresponding section by appening it dynamically
