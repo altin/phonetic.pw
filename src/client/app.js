@@ -4,7 +4,7 @@ Project: Project 2 - Password Scheme
 Name: Phonetic.pw
 Group Members: Jason Lai, Altin Rexhepaj, Randy Taylor, Devin Waclawik
 *******************************************************************************/
-// Logic for phonetic.pw password testing framework
+// Client for phonetic.pw password testing framework
 
 /*******************************************************************************
 Global variable declaration
@@ -64,6 +64,7 @@ var practiceField = '<center><div id="practiceField" class="gen"><p>Please pract
 $(document).ready(function() {
     //load the initial generator
     loadGenerator(State.e_Email);
+
     /*
     name: shuffle
     input: order (var [])
@@ -94,19 +95,19 @@ $(document).ready(function() {
                     $('body').append("<div id='email-test' class='block'><center><h3>Email</h3><p id='attemptsLeft'>Attempts Left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
                     password = user.e_pw;
                     currState = 1;
-                    getStamp(currState, Mode.e_Enter, "start");
+                    logit(getStamp(currState, Mode.e_Enter, "start"));
                     break;
                 case State.e_Banking:
                     $('body').append("<div id='banking-test' class='block'><center><h3>Banking</h3><p id='attemptsLeft'>Attempts Left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
                     password = user.b_pw;
                     currState = 2;
-                    getStamp(currState, Mode.e_Enter, "start");
+                    logit(getStamp(currState, Mode.e_Enter, "start"));
                     break;
                 case State.e_Shopping:
                     $('body').append("<div id='shopping-test' class='block'><center><h3>Shopping</h3><p id='attemptsLeft'>Attempts Left: </p><p id='attempt_counter'>3</p></center>" + tester + "</div>");
                     password = user.s_pw;
                     currState = 3;
-                    getStamp(currState, Mode.e_Enter, "start");
+                    logit(getStamp(currState, Mode.e_Enter, "start"));
                     break;
             }
             //add enter key handler so form is not submitted
@@ -141,7 +142,7 @@ $(document).ready(function() {
             switch (s) {
                 case State.e_Email: // The user is on the email password generator section
                     currState = 1;
-                    getStamp(currState, Mode.e_Create, "start");
+                    logit(getStamp(currState, Mode.e_Create, "start"));
                     // Dynamically load the password generator UI for the email section
                     $('#email').append(generator);
                     // Dynamically load the practice UI for the password generator UI
@@ -151,14 +152,14 @@ $(document).ready(function() {
                     break;
                 case State.e_Banking: // The user is on the banking password generator section
                     currState = 2;
-                    getStamp(currState, Mode.e_Create, "start");
+                    logit(getStamp(currState, Mode.e_Create, "start"));
                     $('#banking').append(generator);
                     $('#banking').append(practiceField);
                     $('#practiceField').hide();
                     break;
                 case State.e_Shopping: // The user is on the shopping password generator section
                     currState = 3;
-                    getStamp(currState, Mode.e_Create, "start");
+                    logit(getStamp(currState, Mode.e_Create, "start"));
                     $('#shopping').append(generator);
                     $('#shopping').append(practiceField);
                     $('#practiceField').hide();
@@ -183,7 +184,7 @@ $(document).ready(function() {
             *******************************************************************/
             // 'Practice' button: Unhides the practice UI to practice the password
             $('#practice').on("click", function() {
-                getStamp(currState, Mode.e_Create, "practice");
+                logit(getStamp(currState, Mode.e_Create, "practice"));
                 $("#generator, #buttonStrip").hide();
                 $('#practiceField').show();
                 $('#practiceInput').focus();
@@ -191,17 +192,17 @@ $(document).ready(function() {
 
             // 'Accept' button: Save the password for the current category
             $('#accept, #done').on("click", function() {
-                getStamp(currState, Mode.e_Create, "passwordSubmitted");
+                logit(getStamp(currState, Mode.e_Create, "passwordSubmitted"));
                 savePassword();
             });
 
             // 'Hint' button: When clicked, the password appears in the input bar
             $('#hint').on("mousedown", function() {
-                getStamp(currState, Mode.e_Create, "hint", "start");
+                logit(getStamp(currState, Mode.e_Create, "hint", "start"));
                 $('#practiceInput').val(password);
                 $('#practiceInput').css('color', 'grey');
             }).on("mouseup", function() {
-                getStamp(currState, Mode.e_Create, "hint", "end");
+                logit(getStamp(currState, Mode.e_Create, "hint", "end"));
                 $('#practiceInput').val('');
                 $('#practiceInput').css('color', 'black');
                 $('#practiceInput').focus();
@@ -229,14 +230,14 @@ $(document).ready(function() {
         if (mode == Mode.e_Create) {
             var msg;
             if ($('#practiceInput').val().toUpperCase() === password) {
-                getStamp(currState, Mode.e_Create, "testpw", "success");
+                logit(getStamp(currState, Mode.e_Create, "testpw", "success"));
                 msg = successMessages[Math.floor(Math.random() * successMessages.length)];
                 $('#practiceField').append("<p id='success'>" + msg + "</p>");
                 setTimeout(function() {
                     $('#success').remove();
                 }, 1500);
             } else {
-                getStamp(currState, Mode.e_Create, "testpw", "fail");
+                logit(getStamp(currState, Mode.e_Create, "testpw", "fail"));
                 msg = failureMessages[Math.floor(Math.random() * failureMessages.length)];
                 $('#practiceField').append("<p id='fail'>" + msg + "</p>");
                 setTimeout(function() {
@@ -250,7 +251,7 @@ $(document).ready(function() {
             $('#login').focus();
             $('#attempt_counter').text(attempts);
             if ($('#login').val().toUpperCase() === password) {
-                getStamp(currState, Mode.e_Enter, "passwordSubmitted", "success");
+                logit(getStamp(currState, Mode.e_Enter, "passwordSubmitted", "success"));
                 msg = successMessages[Math.floor(Math.random() * successMessages.length)];
                 $('#tester').append("<p id='success'>" + msg + "</p>");
                 setTimeout(function() {
@@ -263,14 +264,14 @@ $(document).ready(function() {
                 attempts = 3;
             } else {
                 if (attempts > 0) {
-                    getStamp(currState, Mode.e_Enter, "passwordSubmitted", "fail");
+                    logit(getStamp(currState, Mode.e_Enter, "passwordSubmitted", "fail"));
                     msg = failureMessages[Math.floor(Math.random() * failureMessages.length)];
                     $('#tester').append("<p id='fail'>" + msg + "</p>");
                     setTimeout(function() {
                         $('#fail').remove();
                     }, 1500);
                 } else if (attempts <= 0) {
-                    getStamp(currState, Mode.e_Enter, "passwordSubmitted", "fail");
+                    logit(getStamp(currState, Mode.e_Enter, "passwordSubmitted", "fail"));
                     $('#enter').hide();
                     $('#tester').append("<p id='fail'> You ran out of attempts. </p>");
                     setTimeout(function() {
@@ -304,7 +305,7 @@ $(document).ready(function() {
                 case Mode.e_Enter:
                     mode = Mode.e_Finished;
                     password = 0;
-                    getStamp(0, Mode.e_Finished);
+                    logit(getStamp(0, Mode.e_Finished));
                     break;
             }
         }
@@ -395,11 +396,12 @@ $(document).ready(function() {
                 break;
         }
     }
+
     /*
     name: getStamp
     input: State (State.e_num), Mode (Mode.e_num), eventName (String), extra (String)
-    output: none
-    purpose: Creates a time stamp with all relevant event details for each event
+    output: stamp(string)
+    purpose: Creates and returns a time stamp with all relevant event details for each event
     */
     function getStamp(State, Mode, eventName, extra = "") {
         var stamp;
@@ -411,7 +413,21 @@ $(document).ready(function() {
         stamp += eventName + ",";
         stamp += password;
         if (extra !== "") stamp += "," + extra;
-        log += stamp + "\n";
-        console.log(stamp);
+        log += stamp + "\n"
+        return stamp;
     }
+
+    /*
+    name: logit
+    input: stamp(string)
+    output: none
+    purpose: sends a request to the server to log a stamp
+    */
+    function logit(stamp){
+      $.ajax({method:"POST",
+				url:"/log",
+				data:stamp,
+        success: function(){console.log("event logged: " + stamp);}
+	   });
+   }
 });
