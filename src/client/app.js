@@ -411,7 +411,7 @@ $(document).ready(function() {
         stamp += eventName + ",";
         stamp += password;
         if (extra !== "") stamp += "," + extra;
-        log = stamp + "\n";
+        log += stamp + "\n";
         console.log(stamp);
     }
 });
