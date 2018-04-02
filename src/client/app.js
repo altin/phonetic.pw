@@ -17,6 +17,20 @@ var order_it;
 var attempts;
 var failureMessages = ["Try again! You can do it!", "Oops! Don't give up!", "Don't worry, you'll remember!", "It's on the tip of your tongue!", "Mistakes happen. Think harder!", "Not quite. Don't sweat it."]
 var successMessages = ["You're a genius!", "Amazing!", "Bingo.", "Great work!", "Correct-o!", "Wow! Teach me your ways.", "Perfect.", "Extraordinary."]
+var stateName = ["email", "banking", "shopping"];
+var modeName = ["create", "enter", "finished"];
+var log = "";
+
+// Temporary user
+var user = {
+    username: "COMP3008",
+    e_pw: "",
+    b_pw: "",
+    s_pw: "",
+    e_login: false,
+    b_login: false,
+    s_login: false
+};
 
 // State enum to keep track of which password we are dealing with
 var State = {
@@ -28,20 +42,27 @@ var State = {
 var Mode = {
     e_Create: 1,
     e_Enter: 2,
-    e_Generating: 3,
-    e_Finished: 4
+    e_Finished: 3
 };
 
-// Temporary user
-var user = {
-    username: "COMP3008",
-    e_pw: "",
-    b_pw: "",
-    s_pw: "",
-    e_login: false,
-    b_login: false,
-    s_login: false
+function getStamp(State, Mode, eventName) {
+    var stamp;
+    stamp = new Date().toISOString() + ",";
+    stamp += user.username + ",";
+    stamp += "phonetic.pw" + ",";
+    stamp += stateName[State - 1] + ",";
+    stamp += modeName[Mode - 1] + ",";
+    stamp += eventName;
+    log += stamp + "\n";
 }
+getStamp(State.e_Email, Mode.e_Create, "start");
+console.log(log);
+
+/// Set up log file
+//var txtFile = "logs/log.csv";
+//var file = new File(txtFile);
+//var out = {user.username};
+//var str = '';
 
 /*******************************************************************************
 Global variable instantiation
@@ -54,28 +75,13 @@ order_it = 0;
 attempts = 3;
 
 // Generator and tester html for dynamic loading
-var generator = '<center><div id="generator" class="gen"><p id="password_print">Your password is:</p><div id="buttonStrip"><button type="button" id="change">Change</button><button type="button" id="practice">Practice</button><button type="button" id="accept">Accept</button></div></div></center>'
+var generator = '<center><div id="generator" class="gen"><p id="password_print">Your password is:</p><div id="buttonStrip"><button type="button" id="practice">Practice</button><button type="button" id="accept">Accept</button></div></div></center>'
 var tester = '<center><div id="tester" class="test"><p>Enter your password: </p><form><input id="login" type="text" size=10 autocomplete="off"></input></form><button type="button" id="enter">Submit</button></center></div></div></center>'
-var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10"></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button></div></div></center>'
+var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10"></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button><button type="button" id="accept">Accept</button></div></div></center>'
 
 $(document).ready(function() {
-    /***************************************************************************
-    Click handlers for initial page
-    ***************************************************************************/
-    // "Email" category: When clicked, show the email password generator UI
-    $('#email').on("click", function() {
-        loadGenerator(State.e_Email);
-    });
-    // "Banking" category: When clicked, show the banking password generator UI
-    $('#banking').on("click", function() {
-        loadGenerator(State.e_Banking);
-    });
-    // "Shopping" category: When clicked, show the shopping password generator UI
-    $('#shopping').on("click", function() {
-        loadGenerator(State.e_Shopping);
-    });
-
-
+    //load the initial generator
+    loadGenerator(State.e_Email);
     /*
     name: shuffle
     input: order (var [])
@@ -140,7 +146,7 @@ $(document).ready(function() {
     */
     function loadGenerator(s) {
         if (s == state && mode == Mode.e_Create) {
-            mode = Mode.e_Generating;
+            mode = Mode.e_Create;
             switch (s) {
                 case State.e_Email: // The user is on the email password generator section
                     // Dynamically load the password generator UI for the email section
@@ -180,13 +186,6 @@ $(document).ready(function() {
             /*******************************************************************
             Click handlers for password generator and practice UI
             *******************************************************************/
-            // 'Change' button: Changes password
-            $('#change').on("click", function() {
-                // Generate a password of desired length
-                password = generatePassword(5).toUpperCase();
-                $('#password').text(password);
-            });
-
             // 'Practice' button: Unhides the practice UI to practice the password
             $('#practice').on("click", function() {
                 $("#generator, #buttonStrip").hide();
@@ -228,7 +227,7 @@ $(document).ready(function() {
     purpose: checks if the entered password matches the generated password and alerts the user respectively
     */
     function enterPassword() {
-        if (mode == Mode.e_Generating) {
+        if (mode == Mode.e_Create) {
             var msg;
             if ($('#practiceInput').val().toUpperCase() === password) {
                 msg = successMessages[Math.floor(Math.random() * successMessages.length)];
@@ -243,6 +242,7 @@ $(document).ready(function() {
                     $('#fail').remove();
                 }, 1500);
             }
+            $('#practiceInput').val('').focus();
         } else if (mode == Mode.e_Enter) {
             attempts--;
             var msg;
@@ -277,6 +277,7 @@ $(document).ready(function() {
                     }, 1500);
                 }
             }
+            $('#login').val('').focus();
         }
     }
 
@@ -288,7 +289,7 @@ $(document).ready(function() {
     */
     function changeState() {
         order_it++;
-        if (mode == Mode.e_Generating) mode = Mode.e_Create;
+        if (mode == Mode.e_Create) mode = Mode.e_Create;
         if (order_it >= order.length) {
             order_it = 0;
             switch (mode) {
@@ -362,6 +363,7 @@ $(document).ready(function() {
                 $('#email').css('cursor', 'context-menu');
                 $('#email').css('background-color', '#444');
                 changeState();
+                loadGenerator(State.e_Banking);
                 break;
             case State.e_Banking:
                 user.b_pw = password.toUpperCase();
@@ -371,6 +373,7 @@ $(document).ready(function() {
                 $('#banking').css('cursor', 'context-menu');
                 $('#banking').css('background-color', '#444');
                 changeState();
+                loadGenerator(State.e_Shopping);
                 break;
             case State.e_Shopping:
                 user.s_pw = password.toUpperCase();

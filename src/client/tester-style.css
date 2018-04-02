@@ -129,11 +129,6 @@ input[type=text] {
     border-radius: 10px;
 }
 
-.block:hover {
-    background-color: #733b3b;
-    cursor: pointer;
-}
-
 .gen {
     position: relative;
     margin: 10px;
