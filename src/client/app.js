@@ -306,9 +306,14 @@ $(document).ready(function() {
                     mode = Mode.e_Enter;
                     break;
                 case Mode.e_Enter:
+                    // Switch mode to "Finished" mode
                     mode = Mode.e_Finished;
+                    // Set password to 0, to indicate the session is over
                     password = 0;
+                    // Print final log to indicate end of session
                     makeStamp(0, Mode.e_Finished);
+                    // Print conclusion message
+                    $('body').append("<center><h3>The session is now over. Thank you for your participation.</h3></center>");
                     break;
             }
         }
