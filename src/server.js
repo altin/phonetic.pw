@@ -33,21 +33,23 @@ function handleRequest(req, res) {
     var urlObject = url.parse(req.url, true);
     //Route for request for logging
     if (urlObject.pathname === "/log") {
-        var stamp = "";
-        // build stamp body
-        req.on('data', function(chunk) {
-            stamp += chunk;
-        });
-        // once stamp body is finished being built
-        req.on('end', function() {
-            fs.appendFile("./logs/log.txt", stamp + '\n', function(err) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log("Log updated!");
-            });
-        });
-        code = 200;
+      //check if the directory exists, if not, create it
+      if (!fs.existsSync('./logs')){ fs.mkdirSync('./logs'); }
+      var stamp = "";
+      // build stamp body
+      req.on('data', function(chunk) {
+          stamp += chunk;
+      });
+      // once stamp body is finished being built
+      req.on('end', function() {
+          fs.appendFile("./logs/log.txt", stamp + '\n', function(err) {
+              if (err) {
+                  return console.log(err);
+              }
+              console.log("Log updated!");
+          });
+      });
+      code = 200;
     } else {
         if (fs.existsSync(filename)) {
             var stats = fs.statSync(filename);
