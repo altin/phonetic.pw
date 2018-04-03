@@ -1,8 +1,18 @@
 # phonetic.pw
-A unique and memorable password scheme developed for COMP 3008.
+Phonetic.pw is a unique and memorable password scheme that generates human readable words as passwords. 
+* Developed for COMP 3008 (Human-Computer Interaction), Winter 2018, at Carleton University
 
-Running instructions (Windows with Node.js)
-  1. Open /src directory in cmd
-  2. Enter > npm install
-  3. Enter > node server.js
-  4. Open browser and enter localhost:3008 in address bar
+### Usage
+* Make sure you have Node.js installed on your system
+* Clone the repository to yor system
+* Open your command line and navigate to the ```/phonetic.pw/src``` directory
+* Type and enter ```npm install``` in the command line to install the necessary modules
+* Type and enter ```node server.js``` in the command line to start the server
+* Open your browser, then type and enter ```localhost:3008``` in the address bar
+
+### Development Details
+#### Chrome, Windows x64
+* HTML, CSS
+* Javascript
+  * jQuery
+  * Node.js
