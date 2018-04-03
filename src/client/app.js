@@ -111,15 +111,15 @@ $(document).ready(function() {
                     break;
             }
             //add enter key handler so form is not submitted
-            $('#login').keypress(function(e){
-              keyID = e.which;
-              if (keyID == 13) {
-                e.preventDefault();
-                enterPassword();
-                return false;
-              }else {
-                return true;
-              }
+            $('#login').keypress(function(e) {
+                keyID = e.which;
+                if (keyID == 13) {
+                    e.preventDefault();
+                    enterPassword();
+                    return false;
+                } else {
+                    return true;
+                }
             });
 
             $('#enter').on("click", function() {
@@ -166,15 +166,15 @@ $(document).ready(function() {
                     break;
             }
             //add enter key handler so form is not submitted
-            $('#practiceInput').keypress(function(e){
-              keyID = e.which;
-              if (keyID == 13) {
-                e.preventDefault();
-                enterPassword();
-                return false;
-              } else {
-                return true;
-              }
+            $('#practiceInput').keypress(function(e) {
+                keyID = e.which;
+                if (keyID == 13) {
+                    e.preventDefault();
+                    enterPassword();
+                    return false;
+                } else {
+                    return true;
+                }
             });
             // Show the password in the corresponding section by appening it dynamically
             $('#password_print').append("<p id='password'>" + password + "</p>");
@@ -423,11 +423,14 @@ $(document).ready(function() {
     output: none
     purpose: sends a request to the server to log a stamp
     */
-    function logit(stamp){
-      $.ajax({method:"POST",
-				url:"/log",
-				data:stamp,
-        success: function(){console.log("event logged: " + stamp);}
-	   });
-   }
+    function logit(stamp) {
+        $.ajax({
+            method: "POST",
+            url: "/log",
+            data: stamp,
+            success: function() {
+                console.log("event logged: " + stamp);
+            }
+        });
+    }
 });

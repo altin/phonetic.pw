@@ -1,0 +1,14 @@
+{
+    "name": "Phonetic.pw",
+    "version": "1.0.0",
+    "description": "A phonetic password generator",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Jason Lai, Altin Rexhepaj, Randy Taylor, Devin Waclawik",
+    "license": "ISC",
+    "dependencies": {
+        "mime-types": "*"
+    }
+}
