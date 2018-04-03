@@ -21,10 +21,10 @@ var stateName = ["email", "banking", "shopping"];
 var modeName = ["create", "enter", "finished"];
 var currState;
 var log = "";
+var userID;
 
 // Temporary user
 var user = {
-    username: "COMP3008",
     e_pw: "",
     b_pw: "",
     s_pw: "",
@@ -62,7 +62,12 @@ var tester = '<center><div id="tester" class="test"><p>Enter your password: </p>
 var practiceField = '<center><div id="practiceField" class="gen"><p>Please practice your password: </p><form><input id="practiceInput" type="text" autocomplete="off" size=10"></input></form><div id="practice-buttonStrip"><button type="button" id="hint">Hint</button><button type="button" id="back">Back</button><button type="button" id="enter">Test</button><button type="button" id="accept">Accept</button></div></div></center>'
 
 $(document).ready(function() {
-    //load the initial generator
+    // Updates the userID via GET request
+    updateUserID();
+    user.username = "COMP3008[" + userID + "]";
+    console.log(userID);
+
+    // Load the initial generator
     loadGenerator(State.e_Email);
 
     /*
@@ -418,10 +423,28 @@ $(document).ready(function() {
     }
 
     /*
+    name: updateUserID
+    input: none
+    output: none
+    purpose: sends a GET request to the server to update the unique userID
+    */
+    function updateUserID() {
+        $.ajax({
+            async: false,
+            method: "GET",
+            url: "/log",
+            success: function(response) {
+                userID = response;
+                console.log("user updated!");
+            },
+        });
+    }
+
+    /*
     name: logit
     input: stamp(string)
     output: none
-    purpose: sends a request to the server to log a stamp
+    purpose: sends a POST request to the server to log a stamp
     */
     function logit(stamp) {
         $.ajax({
