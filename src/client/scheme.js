@@ -7,7 +7,9 @@ Group Members: Jason Lai, Altin Rexhepaj, Randy Taylor, Devin Waclawik
 Functions:
   getRandom()    - generates an random key/element from an object/array
   generatePassword() - generates a random password based on the password scheme
-  buildWord() - builds a "phonetic" word based on the password scheme
+  buildWord() - helper function for generatepassword(): builds a "phonetic word" based on the password scheme
+  calcPasswordSpace() - calculates the possibility space for a "phonetic word" of 5 letters
+  getArray() - helper function for calcPasswordSpace(): gets an array from table  based on its key 
 
 *******************************************************************************/
 // Password scheme logic script for phonetic.pw password testing framework
