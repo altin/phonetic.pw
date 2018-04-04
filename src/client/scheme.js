@@ -52,7 +52,10 @@ output: word (string)
 purpose: Generates a phonetic password of desired length
 */
 function generatePassword (length) {
-  return buildWord(getRandom(table), 1, length)
+	var tmp = buildWord(getRandom(table), 1, length); 
+	tmp += Math.floor(Math.random() * (6 - 1) + 1);
+	tmp += Math.floor(Math.random() * (6 - 1) + 1);
+  return tmp;
 }
 /*
 name: generatePassword
