@@ -18,7 +18,7 @@ Functions:
 // For each key in the object, the associated array is a list of letters which
 // Can come after the key such that it makes a phonetic sound
 var table = {}
-table.a = ['b','d','f','g','h','i','j','k','l','m','n','p','r','s','t','v','w','y','z'];
+table.a = ['b','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','y','z'];
 table.b = ['a','e','i','o','r','u'];
 table.c = ['a','e','h','i','l','o','r','u'];
 table.d = ['a','e','i','o','r','u'];
@@ -28,7 +28,7 @@ table.g = ['a','e','i','k','l','o','r','u'];
 table.h = ['a','e','i','o','u'];
 table.i = ['b','d','f','g','j','k','l','m','n','p','r','s','t','v'];
 table.j = ['a','e','i','o','u'];
-table.k = ['a','e','i','l','o','r','s','u'];
+table.k = ['a','e','i','l','o','r','u'];
 table.l = ['a','e','i','o','u'];
 table.m = ['a','e','i','o','r','u'];
 table.n = ['a','e','i','o','r','u'];
@@ -36,8 +36,8 @@ table.o = ['b','d','f','g','j','k','l','m','n','p','r','s','t','v','w','z'];
 table.p = ['a','e','i','l','o','r','u'];
 table.r = ['a','e','i','o','u'];
 table.s = ['a','e','h','i','k','l','n','o','p','r','t','u','w'];
-table.t = ['a','e','h','i','k','l','o','r','s','u'];
-table.u = ['b','d','f','g','h','j','k','l','m','n','p','r','s','t','v','z'];
+table.t = ['a','e','h','i','l','o','r','s','u'];
+table.u = ['b','d','f','g','j','k','l','m','n','p','r','s','t','v','z'];
 table.v = ['a','e','i','o','u'];
 table.w = ['a','e','i','o','u'];
 table.y = ['a','i','o'];
