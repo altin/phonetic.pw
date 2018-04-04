@@ -1,3 +1,17 @@
+/*******************************************************************************
+Course: COMP3008 (Winter 2018), Project 2
+Project: Project 2 - Password Scheme
+Name: Phonetic.pw
+Group Members: Jason Lai, Altin Rexhepaj, Randy Taylor, Devin Waclawik
+
+Functions:
+  getRandom()    - generates an random key/element from an object/array
+  generatePassword() - generates a random password based on the password scheme
+  buildWord() - builds a "phonetic" word based on the password scheme
+
+*******************************************************************************/
+// Password scheme logic script for phonetic.pw password testing framework
+
 // Lookup table which contains all possible combinations of phonetic words
 // For each key in the object, the associated array is a list of letters which
 // Can come after the key such that it makes a phonetic sound
@@ -34,17 +48,18 @@ output: object/array
 purpose: Generates a cryptographically random key/element from an object or array
 */
 function getRandom(obj) {
-    const buffer = new Uint32Array(1);
-    // Use crypto pseudo-random number generator
-    window.crypto.getRandomValues(buffer);
-    var number = buffer[0] / (0xffffffff + 1);
-    var numKeys = Object.keys(obj).length;
-    if (Array.isArray(obj)) {
-      return obj[Object.keys(obj)[Math.floor(number * numKeys)]];
-    } else {
-      return Object.keys(obj)[Math.floor(number * numKeys)];
-    }
+  const buffer = new Uint32Array(1);
+  // Use crypto pseudo-random number generator
+  window.crypto.getRandomValues(buffer);
+  var number = buffer[0] / (0xffffffff + 1);
+  var numKeys = Object.keys(obj).length;
+  if (Array.isArray(obj)) {
+    return obj[Object.keys(obj)[Math.floor(number * numKeys)]];
+  } else {
+    return Object.keys(obj)[Math.floor(number * numKeys)];
+  }
 }
+
 /*
 name: generatePassword
 input: length (integer)
@@ -52,24 +67,26 @@ output: word (string)
 purpose: Generates a phonetic password of desired length
 */
 function generatePassword (length) {
-	var tmp = buildWord(getRandom(table), 1, length); 
-	tmp += Math.floor(Math.random() * (6 - 1) + 1);
-	tmp += Math.floor(Math.random() * (6 - 1) + 1);
+  var tmp = buildWord(getRandom(table), 1, length);
+  tmp += Math.floor(Math.random() * (6 - 1) + 1);
+  tmp += Math.floor(Math.random() * (6 - 1) + 1);
   return tmp;
 }
+
 /*
-name: generatePassword
+name: buildWord
 input: word, current length, final length (word, currLen, finalLen)
 output: word (string)
 purpose: Helper function of generatePassword(): tail-recursive algorithm which
-         builds the phonetic passwords
+builds the phonetic passwords
 */
 function buildWord (word, currLen, finalLen) {
   if (currLen == finalLen) return word; // Return once we reach the right length
-    else
-      letter = getRandom(table[word.slice(-1)]);
-      while (letter === word.slice(-1)) // No repetition of letters
-        letter = getRandom(table[word.slice(-1)]);
-      // Recusively build the rest of the word using the previous letter
-      return buildWord (word += letter, currLen += 1, finalLen);
+  else{
+    letter = getRandom(table[word.slice(-1)]);
+    while (letter === word.slice(-1)) // No repetition of letters
+    letter = getRandom(table[word.slice(-1)]);
+    // Recusively build the rest of the word using the previous letter
+    return buildWord (word += letter, currLen += 1, finalLen);
+  }
 }

@@ -5,6 +5,8 @@ Name: Phonetic.pw
 Group Members: Jason Lai, Altin Rexhepaj, Randy Taylor, Devin Waclawik
 *******************************************************************************/
 
+/* CSS style page for phonetic.pw password testing framework*/
+
 @charset "utf-8";
 @import url('https://fonts.googleapis.com/css?family=Comfortaa');
 html {
