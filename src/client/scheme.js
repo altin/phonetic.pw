@@ -105,6 +105,7 @@ function calcPasswordSpace(){
   var phon3 = '';
   var phon4 = '';
   var phon5 = '';
+  var digit = 10;
   for (var i in table){
     var arr2 = getArray(i);
     phon1 = i;
@@ -125,7 +126,7 @@ function calcPasswordSpace(){
       }
     }
   }
-  return phons.size;
+  return phons.size * digit;
 }
 
 /*
