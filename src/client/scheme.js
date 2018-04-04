@@ -85,8 +85,55 @@ function buildWord (word, currLen, finalLen) {
   else{
     letter = getRandom(table[word.slice(-1)]);
     while (letter === word.slice(-1)) // No repetition of letters
-    letter = getRandom(table[word.slice(-1)]);
+      letter = getRandom(table[word.slice(-1)]);
     // Recusively build the rest of the word using the previous letter
     return buildWord (word += letter, currLen += 1, finalLen);
   }
+}
+
+/*
+name: calcPasswordSpace
+input: none
+output: phons.size (int)
+purpose: calculates the number of total possible passwords for the password scheme
+*/
+function calcPasswordSpace(){
+  var phons = new Set();
+  var phon1 = '';
+  var phon2 = '';
+  var phon3 = '';
+  var phon4 = '';
+  var phon5 = '';
+  for (var i in table){
+    var arr2 = getArray(i);
+    phon1 = i;
+    for (var j in arr2){
+      var arr3 = getArray(arr2[j]);
+      phon2 = phon1 + arr2[j];
+      for (var k in arr3){
+        var arr4 = getArray(arr3[k]);
+        phon3 = phon2 + arr3[k];
+        for (var l in arr4){
+          var arr5 = getArray(arr4[l]);
+          phon4 = phon3 + arr4[l];
+          for (var m in arr5){
+            phon5 = phon4 + arr5[m];
+            phons.add(phon5);
+          }
+        }
+      }
+    }
+  }
+  return phons.size;
+}
+
+/*
+name: getArray
+input: key
+output: table[key] (array)
+purpose: Helper function of calcPasswordSpace() to get the array with matching key from table dictionary
+*/
+function getArray(key){
+  var k = '' + key;
+  return table[k];
 }
