@@ -9,7 +9,7 @@ Functions:
   generatePassword() - generates a random password based on the password scheme
   buildWord() - helper function for generatepassword(): builds a "phonetic word" based on the password scheme
   calcPasswordSpace() - calculates the possibility space for a "phonetic word" of 5 letters
-  getArray() - helper function for calcPasswordSpace(): gets an array from table  based on its key 
+  getArray() - helper function for calcPasswordSpace(): gets an array from table  based on its key
 
 *******************************************************************************/
 // Password scheme logic script for phonetic.pw password testing framework
@@ -70,8 +70,7 @@ purpose: Generates a phonetic password of desired length
 */
 function generatePassword (length) {
   var tmp = buildWord(getRandom(table), 1, length);
-  tmp += Math.floor(Math.random() * (6 - 1) + 1);
-  tmp += Math.floor(Math.random() * (6 - 1) + 1);
+  tmp += Math.floor(Math.random() * (10 - 0) + 0);
   return tmp;
 }
 
