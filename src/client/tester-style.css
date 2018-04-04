@@ -172,6 +172,10 @@ input[type=text] {
     padding: 10px;
 }
 
+#practiceInput, #login {
+    font-family: 'Roboto Mono', monospace;
+}
+
 #success {
     color: lime;
     font-weight: bolder;
