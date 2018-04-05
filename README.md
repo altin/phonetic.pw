@@ -1,4 +1,4 @@
-# phonetic.pw
+# Phonetic.pw
 Phonetic.pw is a unique and memorable password scheme that generates human readable words as passwords. 
 * Developed for COMP 3008 (Human-Computer Interaction), Winter 2018, at Carleton University
 
