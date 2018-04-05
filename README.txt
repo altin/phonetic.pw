@@ -7,10 +7,10 @@ Usage
 -----
 * Make sure you have Node.js installed on your system
 * Clone the repository to your system
-* Open your command line and navigate to the ```/phonetic.pw/src``` directory
-* Type and enter ```npm install``` in the command line to install the necessary modules
-* Type and enter ```node server.js``` in the command line to start the server
-* Open your browser, then type and enter ```localhost:3008``` in the address bar
+* Open your command line and navigate to the "/phonetic.pw/src" directory
+* Type and enter "npm install" in the command line to install the necessary modules
+* Type and enter "node server.js" in the command line to start the server
+* Open your browser, then type and enter "localhost:3008" in the address bar
 
 Development Details
 -------------------
