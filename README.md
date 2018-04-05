@@ -11,7 +11,7 @@ Phonetic.pw is a unique and memorable password scheme that generates human reada
 * Open your browser, then type and enter ```localhost:3008``` in the address bar
 
 ### Development Details
-#### Chrome, Windows x64
+#### Chrome
 * HTML, CSS
 * Javascript
   * jQuery
