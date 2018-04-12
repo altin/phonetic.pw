@@ -7,7 +7,7 @@ This repository consists of a testing framework implementation that was develope
 * [Jason Lai](https://github.com/jlai29)
 
 ### Facts
-* Phonetic.pw can generate over 2 million unique passwords
+* Phonetic.pw can generate millions of unique passwords
 * Phonetic passwords are easier to remember
 
 ### Usage
