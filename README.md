@@ -1,5 +1,5 @@
 # Phonetic.pw
-This repository consists of a testing framework implementation that was developed to assess the usability of Phonetic.pw, a self-made password scheme that generates human readable words as passwords. This framework records and parses log data from the interactions made in the framework for statistical analysis.
+This repository consists of a testing framework implementation that was developed to assess the usability of Phonetic.pw, a self-made password scheme that generates human readable words as passwords. This framework records and parses log data from the interactions made in the framework, for the purpose of statistical analysis.
 * This framework was developed for COMP 3008 (Human-Computer Interaction), Winter 2018, at Carleton University
 
 ### Authors
