@@ -18,6 +18,11 @@ This repository consists of a testing framework implementation that was develope
 * Type and enter ```node server.js``` in the command line to start the server
 * Open your browser, then type and enter ```localhost:3008``` in the address bar
 
+### Screenshots
+![image](1.png)
+![image](2.png)
+![image](3.png)
+
 ### Development Details
 #### Chrome
 * HTML, CSS
